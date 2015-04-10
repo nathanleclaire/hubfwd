@@ -1,0 +1,5 @@
+from debian:jessie
+
+copy /hubfwd /hubfwd
+expose 3000
+entrypoint ["/hubfwd"]
