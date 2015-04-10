@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/codegangsta/negroni"
 	"github.com/gorilla/mux"
 )
 
@@ -48,7 +47,7 @@ The Docker Hub URL schemes are hard to remember and type.
 This website provides a shorthand for accessing Docker Hub images.
 </p>
 <p>To go to an official (library) image: <a href="http://dkrimg.com/golang">dkrimg.com/golang</a></p>
-<p>To go to an unofficial (user) image: <a href="http://dkrimg.com/nathanleclaire/zshdev">dkrimg.com/nathanleclaire/zshdev</p>
+<p>To go to an unofficial (user) image: <a href="http://dkrimg.com/nathanleclaire/hubfwd">dkrimg.com/nathanleclaire/hubfwd</p>
 </center>
 </body>
 </html>
@@ -61,7 +60,6 @@ func main() {
 	router.HandleFunc("/", HomeHandler)
 	router.HandleFunc("/{libraryimg}", OfficialImageHandler)
 	router.HandleFunc("/{user}/{img}", UserImageHandler)
-	n := negroni.New()
-	n.UseHandler(router)
-	n.Run(":3000")
+	http.Handle("/", router)
+	http.ListenAndServe(":3000", nil)
 }
